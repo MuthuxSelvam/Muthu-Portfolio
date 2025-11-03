@@ -1,0 +1,14 @@
+========================================
+   COPY THESE 3 COMMANDS TO PUSH TO GITHUB
+========================================
+
+git add .
+git commit -m "Complete portfolio with AI chatbot, publications, and Vercel deployment configuration"
+git push origin main
+
+========================================
+
+After pushing, go to https://vercel.com/dashboard and redeploy!
+
+========================================
+

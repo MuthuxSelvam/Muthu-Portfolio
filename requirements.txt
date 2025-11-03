@@ -1,0 +1,8 @@
+# Flask Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Additional dependencies for production
+gunicorn==21.2.0
+python-dotenv==1.0.0
+requests==2.31.0

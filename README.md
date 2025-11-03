@@ -155,10 +155,30 @@ Update `templates/publications.html` to add:
 2. Configure WSGI file
 3. Point to `app.py`
 
-### Deploy to Netlify/Vercel
+### Deploy to Vercel (Recommended & Already Configured!)
 
-1. Add a `vercel.json` or `netlify.toml` config
-2. Or use their CLI tools
+1. Push your code to GitHub
+2. Go to https://vercel.com/new
+3. Import your GitHub repository
+4. Vercel will auto-detect Flask app with `vercel.json`
+5. Click Deploy - done!
+
+**Live URL**: https://muthu-portfolio-tau.vercel.app
+
+### Deploy to Heroku
+
+1. Procfile is already created: `web: gunicorn app:app`
+2. Add Heroku config:
+   ```bash
+   heroku create your-portfolio-name
+   git push heroku main
+   ```
+
+### Deploy to Render/Railway
+
+1. Connect your GitHub repository
+2. Select Python buildpack
+3. Deploy automatically!
 
 ## 📝 License
 
