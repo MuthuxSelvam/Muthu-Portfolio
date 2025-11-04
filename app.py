@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory, request, jsonify
+from flask import Flask, render_template, send_from_directory, request, jsonify, abort
 import os
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -19,6 +19,9 @@ knowledge = {
 # ---------------------------
 @app.route('/')
 def home():
+    # Debug: verify resume path exists
+    resume_path = os.path.join(app.static_folder, 'docs', 'MUTHU_SELVAM_Resume.pdf')
+    print("DEBUG: resume path:", resume_path, "exists:", os.path.exists(resume_path))
     return render_template('index.html')
 
 @app.route('/about')
@@ -45,6 +48,36 @@ def contact():
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
+
+# Explicit download route to ensure reliability and force attachment
+@app.route('/download-resume')
+def download_resume():
+    # Prefer file at static root with space in name (as per user's path)
+    static_dir = app.static_folder
+    preferred_filename = 'MUTHU SELVAM_Resume.pdf'
+    alt_filename = 'MUTHU_SELVAM_Resume.pdf'
+
+    # Try preferred filename first
+    preferred_path = os.path.join(static_dir, preferred_filename)
+    if os.path.exists(preferred_path):
+        return send_from_directory(static_dir, preferred_filename, as_attachment=True)
+
+    # Fallback: try alternative filename in static root
+    alt_path_root = os.path.join(static_dir, alt_filename)
+    if os.path.exists(alt_path_root):
+        return send_from_directory(static_dir, alt_filename, as_attachment=True)
+
+    # Fallback: try within static/docs for either naming
+    docs_dir = os.path.join(static_dir, 'docs')
+    preferred_in_docs = os.path.join(docs_dir, preferred_filename)
+    alt_in_docs = os.path.join(docs_dir, alt_filename)
+    if os.path.exists(preferred_in_docs):
+        return send_from_directory(docs_dir, preferred_filename, as_attachment=True)
+    if os.path.exists(alt_in_docs):
+        return send_from_directory(docs_dir, alt_filename, as_attachment=True)
+
+    print("ERROR: resume not found at", preferred_path, alt_path_root, preferred_in_docs, alt_in_docs)
+    abort(404, description="Resume not found on the server.")
 
 # Health check
 @app.route('/health')

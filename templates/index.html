@@ -62,12 +62,29 @@
             Building innovative solutions that blend technology with social impact.
           </p>
           <div class="hero-buttons">
-            <a href="#projects" class="btn btn-primary">View My Work</a>
-            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-            <a href="{{ url_for('static', filename='docs/resume.pdf') }}" download="Muthu_Selvam_Resume.pdf" id="resumeDownload" class="btn btn-primary btn-resume" title="Download Resume">
-              <i class="fas fa-download"></i> <span>Download Resume</span>
+            <!-- View Work Button -->
+            <a href="#projects" class="btn btn-primary">
+              <i class="fas fa-folder-open"></i> View My Work
+            </a>
+          
+            <!-- Contact Button -->
+            <a href="#contact" class="btn btn-secondary">
+              <i class="fas fa-envelope"></i> Get In Touch
+            </a>
+          
+            <!-- Download Resume Button -->
+            <a 
+              href="{{ url_for('download_resume') }}" 
+              id="resumeDownload"
+              class="btn btn-primary btn-resume"
+              title="Download Resume"
+            >
+              <i class="fas fa-download"></i> 
+              <span>Download Resume</span>
             </a>
           </div>
+          
+          
           <div class="social-links">
             <a href="https://in.linkedin.com/in/muthu-selvam-5a63a1268" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/MuthuxSelvam" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
