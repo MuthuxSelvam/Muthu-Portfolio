@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <!-- Fullscreen 3D Background -->
+  <div id="three-bg"></div>
+
+  <div class="site-content">
   <!-- Scroll Progress Bar -->
   <div id="scrollProgress" class="scroll-progress"></div>
 
@@ -60,9 +64,9 @@
           <div class="hero-buttons">
             <a href="#projects" class="btn btn-primary">View My Work</a>
             <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-        <button id="resumeDownload" class="btn btn-primary btn-resume" title="Download Resume">
-          <i class="fas fa-download"></i> Download Resume
-        </button>
+            <a href="{{ url_for('static', filename='docs/resume.pdf') }}" download="Muthu_Selvam_Resume.pdf" id="resumeDownload" class="btn btn-primary btn-resume" title="Download Resume">
+              <i class="fas fa-download"></i> <span>Download Resume</span>
+            </a>
           </div>
           <div class="social-links">
             <a href="https://in.linkedin.com/in/muthu-selvam-5a63a1268" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
@@ -547,7 +551,67 @@
   <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script>window.addEventListener('DOMContentLoaded',()=>{AOS.init({ once: true, duration: 700, easing: 'ease-out' });});</script>
   <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script>
+  // Fullscreen Three.js background
+  (function(){
+    const container = document.getElementById('three-bg');
+    if(!container || !window.THREE) return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+
+    // Subtle animated background geometry
+    const geometry = new THREE.IcosahedronGeometry(8, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0x6c5ce7, opacity: 0.15, transparent: true, wireframe: true });
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambient);
+    const dir = new THREE.DirectionalLight(0x9fa8ff, 0.6);
+    dir.position.set(5, 10, 7);
+    scene.add(dir);
+
+    camera.position.z = 18;
+
+    function onResize(){
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+    window.addEventListener('resize', onResize);
+
+    let raf;
+    function animate(){
+      raf = requestAnimationFrame(animate);
+      mesh.rotation.y += 0.0025;
+      mesh.rotation.x += 0.0015;
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+
+  // Resume button micro interaction
+  (function(){
+    const btn = document.getElementById('resumeDownload');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      btn.classList.add('is-downloading');
+      const label = btn.querySelector('span');
+      if(label) label.textContent = 'Downloading...';
+      setTimeout(()=>{
+        if(label) label.textContent = 'Download Resume';
+        btn.classList.remove('is-downloading');
+      }, 1800);
+    });
+  })();
+  </script>
   <script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+</div>
 </body>
 </html>
 
