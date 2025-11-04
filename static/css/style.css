@@ -1,3 +1,63 @@
+:root{
+  --accent:#7c3aed; /* default purple */
+}
+
+/* Scroll progress bar */
+#scrollProgress{
+  position:fixed;top:0;left:0;height:4px;width:0;background:var(--accent);z-index:9999;transition:width .15s ease-out;
+}
+
+/* Theme row and accent dots */
+.theme-row{display:flex;gap:.75rem;align-items:center;justify-content:flex-end;margin:.75rem 0;}
+.accent-switcher{display:flex;gap:.5rem;}
+.accent-dot{width:14px;height:14px;border-radius:9999px;border:2px solid rgba(0,0,0,.08);cursor:pointer;background:var(--accent);box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.accent-dot[data-accent="#3b82f6"]{background:#3b82f6}
+.accent-dot[data-accent="#7c3aed"]{background:#7c3aed}
+.accent-dot[data-accent="#22c55e"]{background:#22c55e}
+.accent-dot.is-active{outline:2px solid var(--accent); outline-offset:2px}
+
+/* Dark mode base */
+body.dark-mode{background:#0b1220;color:#e8eaf1;}
+body.dark-mode .navbar{background:rgba(8,12,24,.75);backdrop-filter:saturate(140%) blur(8px);}
+body.dark-mode .section-title,body.dark-mode h1,body.dark-mode h2,body.dark-mode h3{color:#eef1ff}
+body.dark-mode a{color:#b4c6ff}
+body.dark-mode .chatbox-wrapper,body.dark-mode .project-card,body.dark-mode .skills .skill-item,.dark-mode .timeline-content{
+  background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08);
+}
+body.dark-mode .chat-input{background:#121a2b;color:#e8eaf1;border-color:rgba(255,255,255,.12)}
+body.dark-mode .chat-send-btn,body.dark-mode .chat-voice-btn{background:var(--accent);color:#0b1220}
+
+/* Typing indicator (three dots) */
+.typing-indicator{display:flex;gap:6px;align-items:center;margin:8px 0}
+.typing-indicator.hidden{display:none}
+.typing-indicator span{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.6;animation:ti-bounce 1s infinite ease-in-out}
+.typing-indicator span:nth-child(2){animation-delay:.15s}
+.typing-indicator span:nth-child(3){animation-delay:.3s}
+@keyframes ti-bounce{0%,80%,100%{transform:scale(.7);opacity:.5}40%{transform:scale(1);opacity:1}}
+
+/* Blinking cursor */
+.typing-cursor{display:inline-block;margin-left:6px;color:var(--accent)}
+.typing-cursor.is-blinking{animation:blink .9s steps(1,end) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* Buttons */
+.theme-toggle{border:none;background:var(--accent);color:#fff;border-radius:9999px;padding:.4rem .7rem;cursor:pointer;box-shadow:0 6px 18px rgba(124,58,237,.35);transition:transform .12s ease, box-shadow .2s ease}
+.theme-toggle:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(124,58,237,.45)}
+
+/* Mic button improvements */
+.chat-voice-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:linear-gradient(180deg,#ffffff,#f5f7fb);color:#1f2937;box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 6px 16px rgba(31,41,55,.12);transition:transform .12s ease, box-shadow .2s ease, background .2s ease}
+.chat-voice-btn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 10px 22px rgba(31,41,55,.18)}
+.chat-voice-btn:active{transform:translateY(0)}
+.chat-voice-btn i{color:var(--accent)}
+body.dark-mode .chat-voice-btn{background:linear-gradient(180deg,#101729,#0e1424);border-color:rgba(255,255,255,.08);color:#e8eaf1}
+
+/* Back to Top visibility animation (button exists) */
+#backToTop{transition:opacity .2s ease, transform .2s ease}
+
+/* Smooth scroll site-wide */
+html{scroll-behavior:smooth}
+
 /* ============================================
    ADVANCED PORTFOLIO WEBSITE - MODERN DESIGN
    ============================================ */
@@ -204,6 +264,13 @@ a {
   padding-top: 80px;
 }
 
+/* Floating AI icons */
+.floating-icons{position:fixed;inset:0;pointer-events:none;z-index:5}
+.floating-icon{position:absolute;left:var(--x);top:var(--y);color:#ffffffaa;font-size:28px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:floatY 6s ease-in-out infinite}
+.floating-icon:nth-child(2){animation-duration:8s}
+.floating-icon:nth-child(3){animation-duration:7s}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+
 .hero::before {
   content: '';
   position: absolute;
@@ -323,6 +390,13 @@ a {
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(108, 92, 231, 0.6);
 }
+
+/* Resume button pulse */
+.btn-resume{position:relative;overflow:hidden}
+.btn-resume::after{content:"";position:absolute;inset:-2px;border-radius:9999px;background:radial-gradient(ellipse at center, rgba(255,255,255,.35), rgba(255,255,255,0) 60%);transform:translateX(-120%);}
+.btn-resume:active{transform:translateY(-1px) scale(.99)}
+.btn-resume.is-downloading{animation:btnPulse .9s ease-in-out 2}
+@keyframes btnPulse{0%{box-shadow:0 0 0 0 rgba(124,58,237,.6)}70%{box-shadow:0 0 0 12px rgba(124,58,237,0)}100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}}
 
 .btn-secondary {
   background: transparent;
@@ -462,6 +536,11 @@ section {
 .projects {
   background: linear-gradient(to bottom, var(--light-bg), var(--white));
 }
+
+/* 3D showcase */
+.showcase-3d{background:var(--light-bg)}
+.three-wrapper{max-width:900px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-md);background:#0a0e27}
+#threeCanvas{display:block;width:100%;height:420px}
 
 .section-header {
   text-align: center;
@@ -951,6 +1030,9 @@ textarea.form-control {
   width: 40px;
   height: 40px;
 }
+
+/* Cursor glowing trail */
+.cursor-trail-dot{position:fixed;pointer-events:none;width:10px;height:10px;border-radius:50%;background:radial-gradient(circle, var(--accent) 0%, rgba(124,58,237,.6) 40%, rgba(124,58,237,0) 70%);mix-blend-mode:screen;opacity:.85;transform:translate(-50%,-50%);filter:blur(.2px);z-index:9999}
 
 /* ===== Back to Top Button ===== */
 .back-to-top {
